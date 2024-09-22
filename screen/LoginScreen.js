@@ -88,8 +88,14 @@ const LoginScreen = () => {
                                 setUsername("");
                                 setPassword("");
 
-                                // Ana ekrana yönlendir
-                                navigation.navigate("MainScreen", { token: token, user });
+                                // 1. Yöntem: `replace` kullanarak login ekranına geri dönüşü engelle
+                                navigation.replace("MainScreen", { token: token, user });
+
+                                // 2. Yöntem: `reset` kullanarak stack'i sıfırla ve login ekranını kaldır
+                                // navigation.reset({
+                                //     index: 0,
+                                //     routes: [{ name: 'MainScreen', params: { token: token, user } }]
+                                // });
                             } else {
                                 Alert.alert("Hata", "Giriş yapan kullanıcı bulunamadı.");
                             }

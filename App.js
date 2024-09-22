@@ -39,9 +39,31 @@ function MainScreen() {
         },
       })}
     >
-      <TabNav.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <TabNav.Screen name="Profil" component={ProfileScreen} options={{ headerShown: false }} />
-      <TabNav.Screen name="Sepetim" component={CardScreen} options={{ headerShown: false }} />
+      <TabNav.Screen name="Home" component={HomeScreen} options={{headerShown:false}} />
+      <TabNav.Screen name="Profil" component={ProfileScreen} options={{
+        headerTitle: "Hoşgeldiniz",
+        headerStyle: {
+          backgroundColor: '#5EC4CF'
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: '#FFF',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 20,
+        },
+      }} />
+      <TabNav.Screen name="Sepetim" component={CardScreen} options={{ 
+        headerTitle: "Sepetim",
+        headerStyle: {
+          backgroundColor: '#5EC4CF'
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: '#FFF',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 20,
+        },
+      }} />
     </TabNav.Navigator>
   );
 }
@@ -61,7 +83,18 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="AddressScreen" component={AddressScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddressScreen" component={AddressScreen} options={{ 
+            headerTitle: "Adress Bilgileri",
+            headerStyle: {
+              backgroundColor: '#5EC4CF'
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: '#FFF',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+          }} />
           <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Card" component={CardScreen} options={{ headerShown: false }} />
           <Stack.Screen name="UserSettingScreen" component={UserSettingScreen} options={{ headerShown: false }} />

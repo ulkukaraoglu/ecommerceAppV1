@@ -41,11 +41,12 @@ const HomeScreen = () => {
       style={{
         paddingTop: Platform.OS === "android" ? 40 : 0,
         flex: 1,
+        padding:0,
         backgroundColor: "#F6F6F6"
       }}
     >
       <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+        <ScrollView>
           <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
 
           {/* Arama Bölümü */}

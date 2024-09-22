@@ -149,9 +149,7 @@ const CartScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerTitle}>Sepetim</Text>
-            </View>
+           
             <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
             <FlatList
                 data={cartItems}

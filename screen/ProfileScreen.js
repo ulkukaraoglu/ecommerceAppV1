@@ -42,7 +42,7 @@ function ProfileScreen() {
 
     const renderOrder = ({ item }) => (
         <View style={styles.orderItem}>
-            <Text style={styles.orderText}>Sipariş ID: {item.id}</Text>
+            <Text style={styles.orderText}>Sipariş No: {item.id}</Text>
             <Text style={styles.orderText}>Tarih: {new Date(item.date).toLocaleDateString()}</Text>
             {item.products.map(product => (
                 <View key={product.productId} style={styles.productContainer}>
@@ -67,9 +67,6 @@ function ProfileScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
-            <View style={styles.header}>
-                <Text style={styles.welcomeText}>Hoşgeldiniz, Ad-Soyad</Text>
-            </View>
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity

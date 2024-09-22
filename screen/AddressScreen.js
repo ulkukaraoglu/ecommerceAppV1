@@ -40,12 +40,12 @@ const AddressScreen = () => {
             setNumber(json.address.number ? json.address.number.toString() : '');
             setPostalCode(json.address.zipcode || '');
           } else {
-            Alert.alert("Hata", "Adres bilgileri bulunamadı.");
+            Alert.alert("Hata", "Adress bilgileri bulunamadı.");
           }
         })
         .catch((err) => {
-          console.log('Adres bilgileri alınamadı:', err);
-          Alert.alert("Hata", "Adres bilgileri alınırken bir hata oluştu.");
+          console.log('Adress bilgileri alınamadı:', err);
+          Alert.alert("Hata", "Adress bilgileri alınırken bir hata oluştu.");
         });
     };
 
@@ -71,12 +71,12 @@ const AddressScreen = () => {
       })
         .then((res) => res.json())
         .then((json) => {
-          Alert.alert("Başarılı", "Adres bilgileri güncellendi.");
+          Alert.alert("Başarılı", "Adress bilgileri güncellendi.");
           console.log(json);
         })
         .catch((err) => {
-          console.log('Adres güncellenemedi:', err);
-          Alert.alert("Hata", "Adres güncellenirken bir hata oluştu.");
+          console.log('Adress güncellenemedi:', err);
+          Alert.alert("Hata", "Adress güncellenirken bir hata oluştu.");
         });
     } else {
       Alert.alert("Hata", "Kullanıcı doğrulaması yapılamadı.");
@@ -86,9 +86,6 @@ const AddressScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Adres</Text>
-      </View>
 
       <View style={styles.form}>
         <View style={styles.group}>

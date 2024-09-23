@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert, StatusBar, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert, StatusBar, Modal, TouchableWithoutFeedback } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserContext } from '../context/UserContext';
 import { AntDesign } from '@expo/vector-icons';
@@ -143,21 +143,26 @@ const CartScreen = () => {
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >
-                <View style={styles.modalBackground}>
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity style={styles.closeIconContainer} onPress={() => setModalVisible(false)}>
-                            <AntDesign name="close" size={24} color="black" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('online')}>
-                            <Text style={styles.buttonText}>Kredi/Banka Kartı</Text>
-                            <AntDesign name="right" size={24} color="black" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('cash')}>
-                            <Text style={styles.buttonText}>Kapıda Ödeme</Text>
-                            <AntDesign name="right" size={24} color="black" />
-                        </TouchableOpacity>
+                {/* Modal dışında bir yere dokunulduğunda modalı kapatır */}
+                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                    <View style={styles.modalBackground}>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalContainer}>
+                                <TouchableOpacity style={styles.closeIconContainer} onPress={() => setModalVisible(false)}>
+                                    <AntDesign name="close" size={24} color="black" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('online')}>
+                                    <Text style={styles.buttonText}>Kredi/Banka Kartı</Text>
+                                    <AntDesign name="right" size={24} color="black" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('cash')}>
+                                    <Text style={styles.buttonText}>Kapıda Ödeme</Text>
+                                    <AntDesign name="right" size={24} color="black" />
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </SafeAreaView>
     );

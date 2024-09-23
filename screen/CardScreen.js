@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert, StatusBar, Platform, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert, StatusBar, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserContext } from '../context/UserContext';
-import PaymentModal from '../modals/PaymentModals';
 import { AntDesign } from '@expo/vector-icons';
 import { useStripe } from '@stripe/stripe-react-native';
-
+import { useNavigation } from '@react-navigation/native';
 
 const CartScreen = () => {
     const { user } = useContext(UserContext);
@@ -13,47 +12,11 @@ const CartScreen = () => {
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
-
-    const fetchPaymentSheetParams = async () => {
-        const response = await fetch('http://192.168.1.105:4242/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: 500 }),
-        });
-        const data = await response.json();
-        console.log(data);
-        const { paymentIntent } = data;
-        return {
-            paymentIntent,
-        };
-    };
-
-    const openPaymentSheet = async () => {
-        setLoading(true);
-
-        const { paymentIntent } = await fetchPaymentSheetParams();
-        const { error } = await initPaymentSheet({
-            paymentIntentClientSecret: paymentIntent,
-        });
-
-        if (!error) {
-            const { error: presentError } = await presentPaymentSheet();
-
-            if (presentError) {
-                Alert.alert(`Error: ${presentError.message}`)
-            } else {
-                Alert.alert('Ödeme başarılı')
-            }
-        } else {
-            Alert.alert(`Error: ${error.message}`)
-        }
-        setLoading(false);
-    }
+    const navigation = useNavigation();
 
     useEffect(() => {
         const fetchCartItems = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`https://fakestoreapi.com/carts/user/${user.id}`);
                 const data = await response.json();
@@ -85,36 +48,40 @@ const CartScreen = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
-    const updateQuantity = (productId, amount) => {
-        const updatedItems = cartItems.map(item =>
-            item.id === productId
-                ? { ...item, quantity: item.quantity + amount }
-                : item
-        );
-
-        const updatedCart = updatedItems.filter(item => item.quantity > 0);
-        setCartItems(updatedCart);
+    const fetchPaymentSheetParams = async () => {
+        const response = await fetch('http://192.168.1.109:4242/create-payment-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount: calculateTotal() * 100 }),
+        });
+        const data = await response.json();
+        return {
+            clientSecret: data.clientSecret, // clientSecret döndürülmeli
+        };
     };
 
-    const removeItemFromCart = (productId) => {
-        Alert.alert(
-            'Ürünü sil',
-            'Bu ürünü sepetten silmek istediğinizden emin misiniz?',
-            [
-                {
-                    text: 'İptal',
-                    style: 'cancel',
-                },
-                {
-                    text: 'Sil',
-                    onPress: () => {
-                        const updatedItems = cartItems.filter(item => item.id !== productId);
-                        setCartItems(updatedItems);
-                    },
-                    style: 'destructive',
-                },
-            ]
-        );
+    const openPaymentSheet = async () => {
+        setLoading(true);
+        const { clientSecret } = await fetchPaymentSheetParams(); // Ödeme detaylarını al
+
+        const { error } = await initPaymentSheet({
+            paymentIntentClientSecret: clientSecret,
+        });
+
+        if (!error) {
+            const { error: presentError } = await presentPaymentSheet();
+            if (presentError) {
+                Alert.alert(`Hata: ${presentError.message}`);
+            } else {
+                Alert.alert('Ödeme başarılı!');
+                
+            }
+        } else {
+            Alert.alert(`Hata: ${error.message}`);
+        }
+        setLoading(false);
     };
 
     const renderItem = ({ item }) => (
@@ -156,18 +123,12 @@ const CartScreen = () => {
                 keyExtractor={(item) => item.id.toString()}
                 ListEmptyComponent={<Text style={styles.emptyText}>Sepetiniz boş.</Text>}
             />
-
-            {/* Toplam Fiyat */}
             <View style={styles.totalContainer}>
                 <Text style={styles.totalText}>Toplam: ${calculateTotal().toFixed(2)}</Text>
             </View>
-
-            {/* Satın Al Butonu */}
             <TouchableOpacity style={styles.purchaseButton} onPress={() => setModalVisible(true)}>
                 <Text style={styles.purchaseButtonText}>Satın Al</Text>
             </TouchableOpacity>
-
-            {/* Modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -176,33 +137,25 @@ const CartScreen = () => {
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
-
-                        {/* Kapat İkonu */}
-                        <TouchableOpacity
-                            style={styles.closeIconContainer}
-                            onPress={() => setModalVisible(false)}
-                        >
+                        <TouchableOpacity style={styles.closeIconContainer} onPress={() => setModalVisible(false)}>
                             <AntDesign name="close" size={24} color="black" />
                         </TouchableOpacity>
-
-                        {/* Kredi/Banka Kartı Butonu */}
-                        <TouchableOpacity style={styles.optionButton}>
+                        <TouchableOpacity style={styles.optionButton} onPress={() => {
+                            setModalVisible(false);
+                            openPaymentSheet(); // Ödeme işlemini başlat
+                        }}>
                             <Text style={styles.buttonText}>Kredi/Banka Kartı</Text>
                             <AntDesign name="right" size={24} color="black" />
                         </TouchableOpacity>
-
-                        {/* Kapıda Ödeme Butonu */}
                         <TouchableOpacity style={styles.optionButton}>
                             <Text style={styles.buttonText}>Kapıda Ödeme</Text>
                             <AntDesign name="right" size={24} color="black" />
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </Modal>
         </SafeAreaView>
     );
-
 };
 
 export default CartScreen;
@@ -272,11 +225,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    separator: {
-        height: 1,
-        backgroundColor: '#EAEAEA',
-        marginVertical: 16,
-    },
     totalContainer: {
         marginBottom: 16,
         alignItems: 'center',
@@ -301,20 +249,6 @@ const styles = StyleSheet.create({
         color: '#888',
         marginTop: 20,
     },
-    header: {
-        height: 60,
-        backgroundColor: '#5EC4CF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: Platform.OS === 'android' ? 20 : 0,
-        borderRadius: 5,
-    },
-    headerTitle: {
-        fontSize: 20.5,
-        fontWeight: 'bold',
-        color: '#FFFF'
-    },
-
     modalBackground: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -326,7 +260,6 @@ const styles = StyleSheet.create({
         padding: 55,
         backgroundColor: 'white',
         borderRadius: 10,
-        position: 'relative',
         alignItems: 'center',
     },
     closeIconContainer: {

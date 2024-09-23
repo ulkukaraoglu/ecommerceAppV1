@@ -15,6 +15,8 @@ import AddressScreen from './screen/AddressScreen';
 import UserSettingScreen from './screen/UserSettingScreen.js';
 import { UserProvider, UserContext } from './context/UserContext.js';
 
+const STRIPE_PUBLISHABLE_KEY = "pk_test_51Q0Hu902Wpvsnd0pyGZI9g3rOWVVGvjfah2OBCZxcByGbQIiaY54pmBgn61UUHSczHRvhaJfbiXCU1gH4VBaMDVQ0077zfkMG8";
+
 function MainScreen() {
   const TabNav = createBottomTabNavigator();
 

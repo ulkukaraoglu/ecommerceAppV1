@@ -77,25 +77,20 @@ const LoginScreen = () => {
 
                                 console.log("Giriş Yapan Kullanıcı Bilgileri:", user);
 
-                                // AsyncStorage ile bilgileri kaydet
                                 await AsyncStorage.setItem("authToken", token);
                                 await AsyncStorage.setItem("user", JSON.stringify(user));
 
-                                // UserContext'e set et
                                 setUser(user);
 
-                                // Kullanıcı adı ve şifreyi sıfırla
                                 setUsername("");
                                 setPassword("");
 
-                                // 1. Yöntem: `replace` kullanarak login ekranına geri dönüşü engelle
                                 navigation.replace("MainScreen", { token: token, user });
 
-                                // 2. Yöntem: `reset` kullanarak stack'i sıfırla ve login ekranını kaldır
-                                // navigation.reset({
-                                //     index: 0,
-                                //     routes: [{ name: 'MainScreen', params: { token: token, user } }]
-                                // });
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'MainScreen', params: { token: token, user } }]
+                                });
                             } else {
                                 Alert.alert("Hata", "Giriş yapan kullanıcı bulunamadı.");
                             }

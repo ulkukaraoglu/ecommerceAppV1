@@ -35,4 +35,4 @@ app.post('/create-payment-intent', async (req, res) => {
 });
 
 
-app.listen(4242, () => console.log('Backend çalışıyor: http://192.168.1.109:4242'));
+app.listen(4242, () => console.log('Backend çalışıyor: http:// 192.168.1.46:4242'));

@@ -69,7 +69,7 @@ function ProductScreen({ route }) {
 
                 <View style={styles.priceAndQuantityContainer}>
                     <Text style={styles.price}>
-                        ₺{product.price.toFixed(2)}
+                        ${product.price.toFixed(2)}
                     </Text>
 
                     <View style={styles.quantityContainer}>

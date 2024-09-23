@@ -49,44 +49,79 @@ const CartScreen = () => {
     };
 
     const fetchPaymentSheetParams = async () => {
-        const response = await fetch('http://192.168.1.109:4242/create-payment-intent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: calculateTotal() * 100 }),
-        });
-        const data = await response.json();
-        return {
-            clientSecret: data.clientSecret, // clientSecret döndürülmeli
-        };
+        try {
+            const response = await fetch('http://192.168.1.46:4242/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: calculateTotal() * 100 }), // Amount in cents
+            });
+
+            const data = await response.json();
+            if (!data.clientSecret) {
+                throw new Error("Client secret yok.");
+            }
+            return { clientSecret: data.clientSecret };
+        } catch (error) {
+            console.error("fetchPaymentSheetParams Hatası:", error);
+            Alert.alert("Hata", "Ödeme süreci başlatılamadı.");
+            throw error;
+        }
+    };
+
+    const initializePaymentSheet = async () => {
+        try {
+            setLoading(true);
+            const { clientSecret } = await fetchPaymentSheetParams();
+            const { error } = await initPaymentSheet({
+                paymentIntentClientSecret: clientSecret,
+                merchantDisplayName: 'Your Store Name', // Mağaza adını buraya ekliyoruz
+                countryCode: 'US', // İsteğe bağlı: ülke kodu
+                googlePay: false, // İsteğe bağlı: Google Pay destekleniyorsa
+                applePay: false,  // İsteğe bağlı: Apple Pay destekleniyorsa
+            });
+
+            if (error) {
+                console.error("initPaymentSheet Error: ", error);
+                Alert.alert("Hata", "PaymentSheet başlatılamadı: " + error.message);
+            } else {
+                console.log("PaymentSheet başarıyla başlatıldı");
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error("initializePaymentSheet Hatası:", error);
+            Alert.alert("Hata", "Ödeme süreci başlatılamadı.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const openPaymentSheet = async () => {
-        setLoading(true);
-        const { clientSecret } = await fetchPaymentSheetParams(); // Ödeme detaylarını al
+        try {
+            setLoading(true);
+            const { error } = await presentPaymentSheet();
 
-        const { error } = await initPaymentSheet({
-            paymentIntentClientSecret: clientSecret,
-        });
-
-        if (!error) {
-            const { error: presentError } = await presentPaymentSheet();
-            if (presentError) {
-                Alert.alert(`Hata: ${presentError.message}`);
+            if (error) {
+                console.error("presentPaymentSheet Error: ", error);
+                Alert.alert(`Hata`, error.message);
             } else {
-                Alert.alert('Ödeme başarılı!');
+                Alert.alert('Başarılı', 'Ödeme işlemi başarılı.');
             }
-        } else {
-            Alert.alert(`Hata: ${error.message}`);
+        } catch (error) {
+            console.error("openPaymentSheet Hatası:", error);
+            Alert.alert("Hata", "Ödeme ekranı açılamadı.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
-    const handlePaymentOption = (option) => {
+    const handlePaymentOption = async (option) => {
         setModalVisible(false);
+
         if (option === 'online') {
-            openPaymentSheet(); // Ödeme işlemini başlat
+            await initializePaymentSheet(); // PaymentSheet başlatılıyor
+            openPaymentSheet(); // Başlatıldıktan sonra ödeme ekranı açılıyor
         } else if (option === 'cash') {
             navigation.navigate('PaymentScreen'); // Kapıda Ödeme seçeneği
         }
@@ -143,8 +178,6 @@ const CartScreen = () => {
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >
-                
-
                 <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
                     <View style={styles.modalBackground}>
                         <TouchableWithoutFeedback>

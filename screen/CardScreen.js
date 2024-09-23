@@ -143,7 +143,8 @@ const CartScreen = () => {
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >
-                {/* Modal dışında bir yere dokunulduğunda modalı kapatır */}
+                
+
                 <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
                     <View style={styles.modalBackground}>
                         <TouchableWithoutFeedback>

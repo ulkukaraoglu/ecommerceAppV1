@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, Platform, ScrollView, Pressable, TextInput, Image, StatusBar } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Platform, ScrollView, Pressable, TextInput, Image, StatusBar, Dimensions } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from '../context/UserContext';
+import Carousel from "react-native-reanimated-carousel"; // Karusel kütüphanesini ekliyoruz.
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
@@ -36,12 +37,18 @@ const HomeScreen = () => {
 
   const isSelectedCategory = (category) => selectedCategory === category;
 
+  // Afiş resimlerini statik bir diziye koyuyoruz
+  const bannerImages = [
+    require('../pictures/commerce1.png'),
+    require('../pictures/commerce2.png'),
+  ];
+
   return (
     <SafeAreaView
       style={{
         paddingTop: Platform.OS === "android" ? 40 : 0,
         flex: 1,
-        padding:0,
+        padding: 0,
         backgroundColor: "#F6F6F6"
       }}
     >
@@ -122,10 +129,22 @@ const HomeScreen = () => {
             </Pressable>
           </View>
 
-          <View style={styles.campaignSection}>
-            <Image
-              source={require('../pictures/commerce.png')}
-              style={styles.campainPicture} />
+          {/* Kayan Afiş (Carousel) */}
+          <View style={styles.carouselSection}>
+            <Carousel
+              width={Dimensions.get('window').width} // Genişlik ekran boyutuna göre ayarlandı
+              height={200} // Carousel yüksekliği
+              autoPlay={true} // Otomatik kaydırma
+              autoPlayInterval={3000} // 3 saniyede bir kaydırma
+              data={bannerImages} // Statik afiş resimleri
+              renderItem={({ item, index }) => (
+                <Image
+                  key={index}
+                  source={item}
+                  style={styles.carouselImage}
+                />
+              )}
+            />
           </View>
 
           {/* Tüm Ürünler */}
@@ -311,5 +330,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     backgroundColor: '#f9f9f9',
+  },
+  carouselSection: {
+    padding: 10,
+  },
+  carouselImage: {
+    width: '100%',
+    height: 190,
+    resizeMode: 'cover',
+    borderRadius: 10,
   },
 });

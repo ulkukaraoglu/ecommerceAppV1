@@ -76,12 +76,20 @@ const CartScreen = () => {
                 Alert.alert(`Hata: ${presentError.message}`);
             } else {
                 Alert.alert('Ödeme başarılı!');
-                
             }
         } else {
             Alert.alert(`Hata: ${error.message}`);
         }
         setLoading(false);
+    };
+
+    const handlePaymentOption = (option) => {
+        setModalVisible(false);
+        if (option === 'online') {
+            openPaymentSheet(); // Ödeme işlemini başlat
+        } else if (option === 'cash') {
+            navigation.navigate('PaymentScreen'); // Kapıda Ödeme seçeneği
+        }
     };
 
     const renderItem = ({ item }) => (
@@ -140,14 +148,11 @@ const CartScreen = () => {
                         <TouchableOpacity style={styles.closeIconContainer} onPress={() => setModalVisible(false)}>
                             <AntDesign name="close" size={24} color="black" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.optionButton} onPress={() => {
-                            setModalVisible(false);
-                            openPaymentSheet(); // Ödeme işlemini başlat
-                        }}>
+                        <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('online')}>
                             <Text style={styles.buttonText}>Kredi/Banka Kartı</Text>
                             <AntDesign name="right" size={24} color="black" />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.optionButton}>
+                        <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('cash')}>
                             <Text style={styles.buttonText}>Kapıda Ödeme</Text>
                             <AntDesign name="right" size={24} color="black" />
                         </TouchableOpacity>

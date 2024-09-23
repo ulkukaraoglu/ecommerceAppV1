@@ -14,6 +14,7 @@ import CardScreen from './screen/CardScreen';
 import AddressScreen from './screen/AddressScreen';
 import UserSettingScreen from './screen/UserSettingScreen.js';
 import { UserProvider, UserContext } from './context/UserContext.js';
+import PaymentScreen from './screen/PaymentScreen.js';
 
 const STRIPE_PUBLISHABLE_KEY = "pk_test_51Q0Hu902Wpvsnd0pyGZI9g3rOWVVGvjfah2OBCZxcByGbQIiaY54pmBgn61UUHSczHRvhaJfbiXCU1gH4VBaMDVQ0077zfkMG8";
 
@@ -41,7 +42,7 @@ function MainScreen() {
         },
       })}
     >
-      <TabNav.Screen name="Home" component={HomeScreen} options={{headerShown:false}} />
+      <TabNav.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <TabNav.Screen name="Profil" component={ProfileScreen} options={{
         headerTitle: "Hoşgeldiniz",
         headerStyle: {
@@ -54,7 +55,7 @@ function MainScreen() {
           fontSize: 20,
         },
       }} />
-      <TabNav.Screen name="Sepetim" component={CardScreen} options={{ 
+      <TabNav.Screen name="Sepetim" component={CardScreen} options={{
         headerTitle: "Sepetim",
         headerStyle: {
           backgroundColor: '#5EC4CF'
@@ -85,7 +86,7 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="AddressScreen" component={AddressScreen} options={{ 
+          <Stack.Screen name="AddressScreen" component={AddressScreen} options={{
             headerTitle: "Adress Bilgileri",
             headerStyle: {
               backgroundColor: '#5EC4CF'
@@ -100,6 +101,7 @@ const App = () => {
           <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Card" component={CardScreen} options={{ headerShown: false }} />
           <Stack.Screen name="UserSettingScreen" component={UserSettingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='PaymentScreen' component={PaymentScreen} options={{headerShown:false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

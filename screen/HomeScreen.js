@@ -143,7 +143,7 @@ const HomeScreen = () => {
                     style={styles.productImage}
                   />
                   <Text style={styles.productTitle}>{product.title}</Text>
-                  <Text style={styles.productPrice}>₺{product.price}</Text>
+                  <Text style={styles.productPrice}>${product.price}</Text>
                 </Pressable>
               ))}
             </View>

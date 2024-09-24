@@ -14,7 +14,7 @@ import CardScreen from './screen/CardScreen';
 import AddressScreen from './screen/AddressScreen';
 import UserSettingScreen from './screen/UserSettingScreen.js';
 import { UserProvider, UserContext } from './context/UserContext.js';
-import PaymentScreen from './screen/PaymentScreen.js';
+import PastOrdersScreen from './screen/PastOrdersScreen.js';
 
 const STRIPE_PUBLISHABLE_KEY = "pk_test_51Q0Hu902Wpvsnd0pyGZI9g3rOWVVGvjfah2OBCZxcByGbQIiaY54pmBgn61UUHSczHRvhaJfbiXCU1gH4VBaMDVQ0077zfkMG8";
 
@@ -101,7 +101,18 @@ const App = () => {
           <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Card" component={CardScreen} options={{ headerShown: false }} />
           <Stack.Screen name="UserSettingScreen" component={UserSettingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name='PaymentScreen' component={PaymentScreen} options={{headerShown:false}} />
+          <Stack.Screen name='PastOrdersScreen' component={PastOrdersScreen} options={{
+            headerTitle: "Sipariş Detayları",
+            headerStyle: {
+              backgroundColor: '#5EC4CF'
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: '#FFF',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+          }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

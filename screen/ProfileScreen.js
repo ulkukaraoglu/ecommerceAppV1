@@ -41,18 +41,21 @@ function ProfileScreen() {
     };
 
     const renderOrder = ({ item }) => (
-        <View style={styles.orderItem}>
+        <TouchableOpacity style={styles.orderItem} onPress={() => navigation.navigate('PastOrdersScreen', { orderId: item.id })}>
             <Text style={styles.orderText}>Sipariş No: {item.id}</Text>
             <Text style={styles.orderText}>Tarih: {new Date(item.date).toLocaleDateString()}</Text>
             {item.products.map(product => (
                 <View key={product.productId} style={styles.productContainer}>
                     {products[product.productId] ? (
                         <>
-                            <Text style={styles.productName}>Ürün: {products[product.productId].title}</Text>
-                            <Image
-                                source={{ uri: products[product.productId].image }}
-                                style={styles.productImage}
-                            />
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Product', { product: products[product.productId] })}>
+                                <Text style={styles.productName}>Ürün: {products[product.productId].title}</Text>
+                                <Image
+                                    source={{ uri: products[product.productId].image }}
+                                    style={styles.productImage}
+                                />
+                            </TouchableOpacity>
                             <Text>Adet: {product.quantity}</Text>
                             <Text>Fiyat: ${products[product.productId].price}</Text>
                         </>
@@ -61,7 +64,7 @@ function ProfileScreen() {
                     )}
                 </View>
             ))}
-        </View>
+        </TouchableOpacity>
     );
 
     return (
@@ -70,7 +73,9 @@ function ProfileScreen() {
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    style={styles.button} onPress={() => navigation.navigate("UserSettingScreen")} >
+                    style={styles.button}
+                    onPress={() => navigation.navigate("UserSettingScreen")}
+                >
                     <Text style={styles.buttonText}>Hesabınız</Text>
                 </TouchableOpacity>
 
@@ -80,14 +85,13 @@ function ProfileScreen() {
             </View>
 
             <Text style={styles.sectionTitle}>Siparişleriniz</Text>
-            <View style={styles.ordersContainer}>
-                <FlatList
-                    data={orders}
-                    renderItem={renderOrder}
-                    keyExtractor={item => item.id.toString()}
-                    ListEmptyComponent={<Text style={styles.emptyText}>Henüz siparişiniz bulunmamaktadır.</Text>}
-                />
-            </View>
+            <FlatList
+                data={orders}
+                renderItem={renderOrder}
+                keyExtractor={item => item.id.toString()}
+                ListEmptyComponent={<Text style={styles.emptyText}>Henüz siparişiniz bulunmamaktadır.</Text>}
+                contentContainerStyle={styles.ordersContainer}
+            />
         </SafeAreaView>
     );
 }
@@ -98,19 +102,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#F9F9F9',
-    },
-    header: {
-        backgroundColor: '#4B9CD3',
-        padding: 20,
-        borderRadius: 8,
-        marginBottom: 20,
-        alignItems: 'center',
-    },
-    welcomeText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white',
+        backgroundColor: '#F0F4F8',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -121,10 +113,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFC107',
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.2,
         shadowRadius: 4,
         width: '45%',
         alignItems: 'center',
@@ -133,10 +125,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#DC3545',
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.2,
         shadowRadius: 4,
         width: '45%',
         alignItems: 'center',
@@ -147,14 +139,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     sectionTitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#333',
     },
     ordersContainer: {
         alignItems: 'center',
-        flex: 1,
+        flexGrow: 1,
     },
     orderItem: {
         backgroundColor: '#FFFFFF',
@@ -180,7 +172,7 @@ const styles = StyleSheet.create({
     },
     productImage: {
         width: 50,
-        height: 50,
+        height: 60,
         resizeMode: 'contain',
         marginBottom: 10,
     },

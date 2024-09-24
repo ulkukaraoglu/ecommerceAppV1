@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from '../context/UserContext';
-import Carousel from "react-native-reanimated-carousel"; // Karusel kütüphanesini ekliyoruz.
+import Carousel from "react-native-reanimated-carousel";
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
@@ -37,7 +37,6 @@ const HomeScreen = () => {
 
   const isSelectedCategory = (category) => selectedCategory === category;
 
-  // Afiş resimlerini statik bir diziye koyuyoruz
   const bannerImages = [
     require('../pictures/commerce1.png'),
     require('../pictures/commerce2.png'),
@@ -49,7 +48,6 @@ const HomeScreen = () => {
         paddingTop: Platform.OS === "android" ? 40 : 0,
         flex: 1,
         padding: 0,
-        backgroundColor: "#F6F6F6"
       }}
     >
       <View style={{ flex: 1 }}>
@@ -129,14 +127,14 @@ const HomeScreen = () => {
             </Pressable>
           </View>
 
-          {/* Kayan Afiş (Carousel) */}
+          {/*  Afiş  */}
           <View style={styles.carouselSection}>
             <Carousel
-              width={Dimensions.get('window').width} // Genişlik ekran boyutuna göre ayarlandı
-              height={200} // Carousel yüksekliği
-              autoPlay={true} // Otomatik kaydırma
-              autoPlayInterval={3000} // 3 saniyede bir kaydırma
-              data={bannerImages} // Statik afiş resimleri
+              width={Dimensions.get('window').width}
+              height={200}
+              autoPlay={true}
+              autoPlayInterval={3000} // 3 saniye
+              data={bannerImages}
               renderItem={({ item, index }) => (
                 <Image
                   key={index}
@@ -332,10 +330,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   carouselSection: {
-    padding: 10,
+    padding: 3,
   },
   carouselImage: {
-    width: '100%',
+    width: '98.5%',
     height: 190,
     resizeMode: 'cover',
     borderRadius: 10,

@@ -10,7 +10,26 @@ const UserSettingScreen = () => {
     const [email, setEmail] = useState(user?.email || '');
     const [phone, setPhone] = useState(user?.phone || '');
 
+    const [initialFirstName, setInitialFirstName] = useState(user?.name?.firstname || '');
+    const [initialLastName, setInitialLastName] = useState(user?.name?.lastname || '');
+    const [initialUsername, setInitialUsername] = useState(user?.username || '');
+    const [initialEmail, setInitialEmail] = useState(user?.email || '');
+    const [initialPhone, setInitialPhone] = useState(user?.phone || '');
+
     const handleUpdate = () => {
+        // Değişiklik kontrolü
+        if (
+            firstName === initialFirstName &&
+            lastName === initialLastName &&
+            username === initialUsername &&
+            email === initialEmail &&
+            phone === initialPhone
+        ) {
+            Alert.alert("Uyarı", "Herhangi bir değişiklik yapmadınız.");
+            return;
+        }
+
+        // Kullanıcı bilgilerini güncelle
         const updatedUser = {
             ...user,
             name: {
@@ -24,6 +43,13 @@ const UserSettingScreen = () => {
 
         setUser(updatedUser);
         Alert.alert("Başarılı", "Bilgileriniz güncellendi.");
+
+        // Yeni veriyi başlangıç değeri olarak ayarla
+        setInitialFirstName(firstName);
+        setInitialLastName(lastName);
+        setInitialUsername(username);
+        setInitialEmail(email);
+        setInitialPhone(phone);
     };
 
     return (
@@ -35,36 +61,36 @@ const UserSettingScreen = () => {
             <Text style={styles.label}>Ad</Text>
             <TextInput
                 style={styles.input}
-                value={firstName} // Kullanıcının mevcut adı gösteriliyor
-                onChangeText={setFirstName} // Kullanıcı değişiklik yaparsa, state güncelleniyor
+                value={firstName}
+                onChangeText={setFirstName}
             />
 
             <Text style={styles.label}>Soyad</Text>
             <TextInput
                 style={styles.input}
-                value={lastName} // Kullanıcının mevcut soyadı gösteriliyor
-                onChangeText={setLastName} // Kullanıcı değişiklik yaparsa, state güncelleniyor
+                value={lastName}
+                onChangeText={setLastName}
             />
 
             <Text style={styles.label}>Kullanıcı Adı</Text>
             <TextInput
                 style={styles.input}
-                value={username} // Kullanıcının mevcut kullanıcı adı gösteriliyor
-                onChangeText={setUsername} // Kullanıcı değişiklik yaparsa, state güncelleniyor
+                value={username}
+                onChangeText={setUsername}
             />
 
             <Text style={styles.label}>E-posta</Text>
             <TextInput
                 style={styles.input}
-                value={email} // Kullanıcının mevcut e-postası gösteriliyor
-                onChangeText={setEmail} // Kullanıcı değişiklik yaparsa, state güncelleniyor
+                value={email}
+                onChangeText={setEmail}
             />
 
             <Text style={styles.label}>Telefon</Text>
             <TextInput
                 style={styles.input}
-                value={phone} // Kullanıcının mevcut telefon numarası gösteriliyor
-                onChangeText={setPhone} // Kullanıcı değişiklik yaparsa, state güncelleniyor
+                value={phone}
+                onChangeText={setPhone}
             />
 
             <TouchableOpacity style={styles.button} onPress={handleUpdate}>

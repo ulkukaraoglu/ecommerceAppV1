@@ -18,11 +18,11 @@ app.post('/create-payment-intent', async (req, res) => {
                 },
             },
             metadata: {
-                merchant_display_name: 'Test İşletmesi', // Varsayılan bir işletme adı ekledik
+                merchant_display_name: 'Test İşletmesi', // Varsayılan bir işletme adı
             },
         });
 
-        console.log('Payment Intent:', paymentIntent); // Payment Intent'ı kontrol edin
+        console.log('Payment Intent:', paymentIntent); // Payment Intent'ı kontrol
 
         res.send({
             clientSecret: paymentIntent.client_secret,
@@ -35,4 +35,4 @@ app.post('/create-payment-intent', async (req, res) => {
 });
 
 
-app.listen(4242, () => console.log('Backend çalışıyor: http:// 192.168.1.46:4242'));
+app.listen(4242, () => console.log('Backend çalışıyor: http:// 192.168.1.109:4242'));

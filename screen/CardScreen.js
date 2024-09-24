@@ -50,12 +50,12 @@ const CartScreen = () => {
 
     const fetchPaymentSheetParams = async () => {
         try {
-            const response = await fetch('http://192.168.1.46:4242/create-payment-intent', {
+            const response = await fetch('http://192.168.1.109:4242/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: calculateTotal() * 100 }), // Amount in cents
+                body: JSON.stringify({ amount: calculateTotal() * 100 }),
             });
 
             const data = await response.json();
@@ -76,10 +76,10 @@ const CartScreen = () => {
             const { clientSecret } = await fetchPaymentSheetParams();
             const { error } = await initPaymentSheet({
                 paymentIntentClientSecret: clientSecret,
-                merchantDisplayName: 'Your Store Name', // Mağaza adını buraya ekliyoruz
-                countryCode: 'US', // İsteğe bağlı: ülke kodu
-                googlePay: false, // İsteğe bağlı: Google Pay destekleniyorsa
-                applePay: false,  // İsteğe bağlı: Apple Pay destekleniyorsa
+                merchantDisplayName: 'Your Store Name',
+                countryCode: 'US', //  ülke kodu
+                googlePay: false, // Google Pay destekleniyorsa
+                applePay: false,  //  Apple Pay destekleniyorsa
             });
 
             if (error) {
@@ -122,9 +122,25 @@ const CartScreen = () => {
         if (option === 'online') {
             await initializePaymentSheet(); // PaymentSheet başlatılıyor
             openPaymentSheet(); // Başlatıldıktan sonra ödeme ekranı açılıyor
-        } else if (option === 'cash') {
-            navigation.navigate('PaymentScreen'); // Kapıda Ödeme seçeneği
         }
+    };
+
+    // Ürün sayısını artırma/azaltma fonksiyonu
+    const updateQuantity = (productId, change) => {
+        setCartItems((prevItems) =>
+            prevItems
+                .map((item) =>
+                    item.id === productId
+                        ? { ...item, quantity: item.quantity + change }
+                        : item
+                )
+                .filter((item) => item.quantity > 0) 
+        );
+    };
+
+    // Ürünü sepetten silme fonksiyonu
+    const removeItemFromCart = (productId) => {
+        setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
     };
 
     const renderItem = ({ item }) => (
@@ -172,6 +188,8 @@ const CartScreen = () => {
             <TouchableOpacity style={styles.purchaseButton} onPress={() => setModalVisible(true)}>
                 <Text style={styles.purchaseButtonText}>Satın Al</Text>
             </TouchableOpacity>
+
+            {/* Modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -187,10 +205,6 @@ const CartScreen = () => {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('online')}>
                                     <Text style={styles.buttonText}>Kredi/Banka Kartı</Text>
-                                    <AntDesign name="right" size={24} color="black" />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.optionButton} onPress={() => handlePaymentOption('cash')}>
-                                    <Text style={styles.buttonText}>Kapıda Ödeme</Text>
                                     <AntDesign name="right" size={24} color="black" />
                                 </TouchableOpacity>
                             </View>

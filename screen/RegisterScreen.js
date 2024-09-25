@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, StatusBar } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, StatusBar,ScrollView } from "react-native";
 import React, { useState } from "react";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -60,18 +60,17 @@ const RegisterScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
       <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <ScrollView style={{ backgroundColor: "white" }}>
       <View>
         <Image source={require("../pictures/logo.png")} style={styles.logo} />
       </View>
-
-      <KeyboardAvoidingView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={{ fontSize: 17, fontWeight: "bold", marginTop: 0, color: "#041E42" }}>
             Hesap Oluşturunuz
           </Text>
         </View>
 
-    
         <View style={{ marginTop: 5 }}>
           <View style={styles.inputField}>
             <Ionicons name="person" size={24} color="gray" style={{ marginLeft: 8 }} />
@@ -130,6 +129,7 @@ const RegisterScreen = () => {
         <Pressable onPress={() => navigation.goBack()} style={{ marginTop: 15 }}>
           <Text style={styles.loginText}>Hesabınız var mı? Giriş Yap</Text>
         </Pressable>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 270,
     height: 250,
+    right: -49,
     resizeMode: 'contain',
   },
   inputField: {

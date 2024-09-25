@@ -54,10 +54,6 @@ const UserSettingScreen = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Hesap Bilgileri</Text>
-            </View>
-
             <Text style={styles.label}>Ad</Text>
             <TextInput
                 style={styles.input}

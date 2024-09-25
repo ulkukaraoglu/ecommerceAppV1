@@ -98,9 +98,31 @@ const App = () => {
               fontSize: 20,
             },
           }} />
-          <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Product" component={ProductScreen} options={{
+            headerTitle: "Ürün",
+            headerStyle: {
+              backgroundColor: '#5EC4CF'
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: '#FFF',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+             }} />
           <Stack.Screen name="Card" component={CardScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="UserSettingScreen" component={UserSettingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="UserSettingScreen" component={UserSettingScreen} options={{ 
+            headerTitle: "Hesap Bilgileri",
+            headerStyle: {
+              backgroundColor: '#5EC4CF'
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: '#FFF',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+            }} />
           <Stack.Screen name='PastOrdersScreen' component={PastOrdersScreen} options={{
             headerTitle: "Sipariş Detayları",
             headerStyle: {

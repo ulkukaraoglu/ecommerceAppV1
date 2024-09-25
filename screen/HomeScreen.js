@@ -14,6 +14,7 @@ const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Arama sorgusu
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
+  const [isLiked,setIsLiked] = useState("false");
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -163,9 +164,17 @@ const HomeScreen = () => {
                   <Text style={styles.productTitle}>{product.title}</Text>
                   <Text style={styles.productPrice}>${product.price}</Text>
 
-                  <View style={styles.likeContainer}>
-                      <AntDesign name={"hearto"} size={20} color={"#E55B5B"} />
-                  </View>
+                  {/* <View style={styles.likeContainer} >
+                    <TouchableOpacity onPress={() => setIsLiked(!isLiked)} >
+                      {isLiked?(
+                        <AntDesign name={"hearto"} size={20} color={"#E55B5B"} />
+                      ):(
+                          <AntDesign name={"heart"} size={20} color={"#E55B5B"} />
+
+                      )}
+                    </TouchableOpacity>
+                  </View> */}
+
                 </Pressable>
               ))}
             </View>
@@ -344,8 +353,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   likeContainer: {
-    height: 30,
-    width: 30,
+    height: 36,
+    width: 36,
     backgroundColor: "#F0F0F0",
     justifyContent: "center",
     alignItems: "center",

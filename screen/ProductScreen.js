@@ -32,7 +32,7 @@ function ProductScreen({ route }) {
                     [
                         {
                             text: "Tamam",
-                            onPress: () => navigation.navigate('Card') // "Tamam" butonuna basılınca yönlendirme
+                            onPress: () => navigation.navigate('Card')
                         }
                     ]
                 );

@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 270,
         height: 250,
+        right:-49,
         resizeMode: 'contain',
     },
     button: {
@@ -217,6 +218,6 @@ const styles = StyleSheet.create({
     safeArea: {
         paddingTop: Platform.OS === "android" ? 40 : 0,
         flex: 1,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "white",
     },
 });

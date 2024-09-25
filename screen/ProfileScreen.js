@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, FlatList, Statu
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 
 
 function ProfileScreen() {

@@ -4,65 +4,99 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import axios from "axios";
 
 const RegisterScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastName] = useState("");
   const navigation = useNavigation();
 
   const handleRegister = () => {
-    const user = {
-      name: name,
-      username: username,
-      email: email,
-      password: password,
-    };
+    if (!username || !password || !firstname || !lastname) {
+      Alert.alert("Boş Alan", "Lütfen tüm alanları doldurunuz")
+      return;
+    }
 
-    axios.get("https://fakestoreapi.com/users", user).then((response) => {
-      console.log(response);
-      Alert.alert("Kayıt Başarılı", "Kaydınız başarıyla yapılmıştır.");
-      setName("");
-      setUsername("");
-      setPassword("");
-      setEmail("");
-    }).catch((error) => {
-      Alert.alert("Kaydolma Hatası", "kayıt sırasında bir hata meydana geldi");
-      console.log("Kayıt başarısız", error);
+    fetch('https://fakestoreapi.com/users', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: 21,
+        email: 'defaultemail@gmail.com',
+        username: username,
+        password: password,
+        name: {
+          firstname: firstname,
+          lastname: lastname
+        },
+        address: {
+          city: 'Default City',
+          street: 'Default Street',
+          number: 1,
+          zipcode: '00000',
+          geolocation: {
+            lat: '-37.3159',
+            long: '81.1496'
+          }
+        },
+        phone: '000-000-0000'
+      })
     })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        Alert.alert("Kayıt başarılı", "Kullanıcı başarıyla oluşturuldu");
+        navigation.navigate("MainScreen");
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert("Kayıt başarısız", "Kayıt oluşturulurken bir hata oluştu");
+      });
   }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
       <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
       <View>
-        <Image
-          source={require("../pictures/logo.png")} style={styles.logo}
-        />
+        <Image source={require("../pictures/logo.png")} style={styles.logo} />
       </View>
 
-      <KeyboardAvoidingView behavior="pos">
+      <KeyboardAvoidingView style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={{ fontSize: 17, fontWeight: "bold", marginTop: 0, color: "#041E42" }}>
             Hesap Oluşturunuz
           </Text>
         </View>
 
+    
         <View style={{ marginTop: 5 }}>
           <View style={styles.inputField}>
             <Ionicons name="person" size={24} color="gray" style={{ marginLeft: 8 }} />
             <TextInput
-              value={name}
-              onChangeText={setName}
+              value={firstname}
+              onChangeText={setFirstname}
               style={styles.inputText}
               placeholder="Adınızı giriniz"
             />
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 5 }}>
+          <View style={styles.inputField}>
+            <Ionicons name="person" size={24} color="gray" style={{ marginLeft: 8 }} />
+            <TextInput
+              value={lastname}
+              onChangeText={setLastName}
+              style={styles.inputText}
+              placeholder="Soyadınızı giriniz"
+            />
+          </View>
+        </View>
+
+        <View style={{ marginTop: 5 }}>
           <View style={styles.inputField}>
             <Ionicons name="person" size={24} color="gray" style={{ marginLeft: 8 }} />
             <TextInput
@@ -74,19 +108,7 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
-          <View style={styles.inputField}>
-            <MaterialIcons style={{ marginLeft: 2 }} name="email" size={24} color="gray" />
-            <TextInput
-              value={email}
-              onChangeText={setEmail}
-              style={styles.inputText}
-              placeholder="Email adresinizi giriniz"
-            />
-          </View>
-        </View>
-
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 5 }}>
           <View style={styles.inputField}>
             <AntDesign name="lock" size={24} color="gray" />
             <TextInput

@@ -6,6 +6,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from '../context/UserContext';
 import Carousel from "react-native-reanimated-carousel";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
@@ -161,6 +162,10 @@ const HomeScreen = () => {
                   />
                   <Text style={styles.productTitle}>{product.title}</Text>
                   <Text style={styles.productPrice}>${product.price}</Text>
+
+                  <View style={styles.likeContainer}>
+                      <AntDesign name={"hearto"} size={20} color={"#E55B5B"} />
+                  </View>
                 </Pressable>
               ))}
             </View>
@@ -337,5 +342,16 @@ const styles = StyleSheet.create({
     height: 190,
     resizeMode: 'cover',
     borderRadius: 10,
+  },
+  likeContainer: {
+    height: 30,
+    width: 30,
+    backgroundColor: "#F0F0F0",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 17,
+    position: "absolute",
+    right: 5,
+    top: 3,
   },
 });

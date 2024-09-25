@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, FlatList, Statu
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 function ProfileScreen() {
     const [orders, setOrders] = useState([]);
@@ -70,7 +72,6 @@ function ProfileScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="transparent" translucent={true} barStyle="dark-content" />
-
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.button}
@@ -182,4 +183,18 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 16,
     },
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5
+    },
+    // buttonText: {
+    //     fontSize: 18,
+    //     fontFamily: 'Gill Sans',
+    //     textAlign: 'center',
+    //     margin: 10,
+    //     color: '#ffffff',
+    //     backgroundColor: 'transparent',
+    // },
 });

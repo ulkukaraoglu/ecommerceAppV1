@@ -50,7 +50,7 @@ const CartScreen = () => {
 
     const fetchPaymentSheetParams = async () => {
         try {
-            const response = await fetch('http://192.168.1.47:4242/create-payment-intent', {
+            const response = await fetch('http://192.168.1.109:4242/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

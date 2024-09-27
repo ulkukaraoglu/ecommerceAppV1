@@ -16,7 +16,6 @@ const AddressScreen = () => {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -115,7 +114,7 @@ const AddressScreen = () => {
 
       <View style={styles.form}>
         {isLoading ? (
-          <Text>Yükleniyor...</Text> //veri yükleme
+          <Text>Yükleniyor...</Text>
         ) : (
           <>
             <View style={styles.group}>

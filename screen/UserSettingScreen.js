@@ -17,7 +17,6 @@ const UserSettingScreen = () => {
     const [initialPhone, setInitialPhone] = useState(user?.phone || '');
 
     const handleUpdate = () => {
-        // Değişiklik kontrolü
         if (
             firstName === initialFirstName &&
             lastName === initialLastName &&

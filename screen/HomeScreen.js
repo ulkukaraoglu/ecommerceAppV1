@@ -6,16 +6,15 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from '../context/UserContext';
 import Carousel from "react-native-reanimated-carousel";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); // Arama sorgusu
+  const [searchQuery, setSearchQuery] = useState("");
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
-  const [isLiked,setIsLiked] = useState("false");
 
+  //ürün çekme
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
@@ -23,6 +22,7 @@ const HomeScreen = () => {
       .catch(err => console.error(err));
   }, []);
 
+  // ürün filtreleme
   const filteredProducts = products
     .filter(product =>
       selectedCategory ? product.category === selectedCategory : true
@@ -33,7 +33,7 @@ const HomeScreen = () => {
       return (
         product.title.toLowerCase().includes(search) ||
         product.description.toLowerCase().includes(search) ||
-        price.includes(search) // Ürün fiyatında da arama yap
+        price.includes(search)
       );
     });
 
@@ -163,18 +163,6 @@ const HomeScreen = () => {
                   />
                   <Text style={styles.productTitle}>{product.title}</Text>
                   <Text style={styles.productPrice}>${product.price}</Text>
-
-                  {/* <View style={styles.likeContainer} >
-                    <TouchableOpacity onPress={() => setIsLiked(!isLiked)} >
-                      {isLiked?(
-                        <AntDesign name={"hearto"} size={20} color={"#E55B5B"} />
-                      ):(
-                          <AntDesign name={"heart"} size={20} color={"#E55B5B"} />
-
-                      )}
-                    </TouchableOpacity>
-                  </View> */}
-
                 </Pressable>
               ))}
             </View>

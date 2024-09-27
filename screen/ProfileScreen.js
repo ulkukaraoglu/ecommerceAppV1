@@ -11,7 +11,7 @@ function ProfileScreen() {
     const navigation = useNavigation();
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/carts?startdate=2019-12-10&enddate=2020-10-10')
+        fetch('https://fakestoreapi.com/carts?startdate=2019-12-10&enddate=2024-10-10')
             .then(res => res.json())
             .then(json => {
                 setOrders(json);

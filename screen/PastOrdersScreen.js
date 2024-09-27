@@ -22,7 +22,7 @@ function PastOrdersScreen() {
             if (!products[product.productId]) {
               const res = await fetch(`https://fakestoreapi.com/products/${product.productId}`);
               const productDetails = await res.json();
-              priceSum += productDetails.price * product.quantity; // Fiyat ve adet çarpımı
+              priceSum += productDetails.price * product.quantity;
               setProducts(prevProducts => ({
                 ...prevProducts,
                 [product.productId]: productDetails,
@@ -31,7 +31,6 @@ function PastOrdersScreen() {
           })
         );
 
-        // Promise.all döngüsünden sonra toplam fiyatı ayarlıyoruz
         setTotalPrice(priceSum);
       })
       .catch(error => console.error("Sipariş Detaylarını Çekme Hatası:", error));
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     marginVertical: 8,
-    elevation: 3, // Android için gölge efekti
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
@@ -153,5 +152,11 @@ const styles = StyleSheet.create({
     color: '#888',
     textAlign: 'center',
     marginVertical: 20,
+  },
+  productImage: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
+    marginBottom: 10,
   },
 });

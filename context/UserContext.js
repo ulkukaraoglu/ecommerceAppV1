@@ -23,14 +23,14 @@ export const UserProvider = ({ children }) => {
         loadUserFromStorge();
     }, []);
 
-    const saveUserToStroge = async (userData) => {
-        try {
-            await AsyncStorage.setItem('user', JSON.stringify(userData));
-            setUser(userData);
-        } catch (error) {
-            console.error("kullanıcı bilgi kaydı başarısız", error);
-        }
-    };
+    // const saveUserToStroge = async (userData) => {
+    //     try {
+    //         await AsyncStorage.setItem('user', JSON.stringify(userData));
+    //         setUser(userData);
+    //     } catch (error) {
+    //         console.error("kullanıcı bilgi kaydı başarısız", error);
+    //     }
+    // };
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

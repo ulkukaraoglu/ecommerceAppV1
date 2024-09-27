@@ -58,7 +58,7 @@ const LoginScreen = () => {
                 if (json.token) {
                     const token = json.token;
 
-                    // Tüm kullanıcıları çekiyoruz
+                    // Tüm kullanıcıları arasında giriş yapan kullanıcının bilgilerini bulup girişi onaylıyoruz
                     fetch('https://fakestoreapi.com/users', {
                         method: 'GET',
                         headers: {

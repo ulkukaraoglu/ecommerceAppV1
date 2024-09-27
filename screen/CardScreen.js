@@ -13,6 +13,7 @@ const CartScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const navigation = useNavigation();
+    const [products, setProducts] = useState({});
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -48,6 +49,7 @@ const CartScreen = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
+    //clientSecret kontrol
     const fetchPaymentSheetParams = async () => {
         try {
             const response = await fetch('http://192.168.1.109:4242/create-payment-intent', {
@@ -70,6 +72,7 @@ const CartScreen = () => {
         }
     };
 
+    // ödeme formunu hazırlama
     const initializePaymentSheet = async () => {
         try {
             setLoading(true);
@@ -97,6 +100,7 @@ const CartScreen = () => {
         }
     };
 
+    //ödeme sayfasını açma
     const openPaymentSheet = async () => {
         try {
             setLoading(true);
@@ -135,7 +139,7 @@ const CartScreen = () => {
                         ? { ...item, quantity: item.quantity + change }
                         : item
                 )
-                .filter((item) => item.quantity > 0) 
+                .filter((item) => item.quantity > 0)
         );
     };
 
@@ -145,7 +149,10 @@ const CartScreen = () => {
     };
 
     const renderItem = ({ item }) => (
-        <View style={styles.productContainer}>
+        <TouchableOpacity
+         style={styles.productContainer}
+            onPress={() => navigation.navigate('Product', { product: item })}
+            >
             <Image source={{ uri: item.image }} style={styles.productImage} />
             <View style={styles.productInfo}>
                 <Text style={styles.productName}>{item.title}</Text>
@@ -163,7 +170,7 @@ const CartScreen = () => {
                     <Text style={styles.removeButtonText}>Sil</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 
     if (loading) {
